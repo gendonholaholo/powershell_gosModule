@@ -1,0 +1,134 @@
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>Microsoft.PowerShell.Commands.PSRepositoryItemInfo</T>
+      <T>System.Management.Automation.PSCustomObject</T>
+      <T>System.Object</T>
+    </TN>
+    <MS>
+      <S N="Name">PSProgress</S>
+      <Version N="Version">1.1</Version>
+      <S N="Type">Module</S>
+      <S N="Description">This module provides a cmdlet that simplifies the process of creating and managing progress bars in your PowerShell scripts.</S>
+      <S N="Author">Daniel Potter</S>
+      <S N="CompanyName">DanielPotter</S>
+      <S N="Copyright">(c) Daniel Potter. All rights reserved.</S>
+      <DT N="PublishedDate">2024-12-08T01:54:39+07:00</DT>
+      <Obj N="InstalledDate" RefId="1">
+        <DT>2024-12-08T15:35:46.709783+07:00</DT>
+        <MS>
+          <Obj N="DisplayHint" RefId="2">
+            <TN RefId="1">
+              <T>Microsoft.PowerShell.Commands.DisplayHintType</T>
+              <T>System.Enum</T>
+              <T>System.ValueType</T>
+              <T>System.Object</T>
+            </TN>
+            <ToString>DateTime</ToString>
+            <I32>2</I32>
+          </Obj>
+        </MS>
+      </Obj>
+      <Nil N="UpdatedDate" />
+      <Nil N="LicenseUri" />
+      <URI N="ProjectUri">https://github.com/DanielPotter/PSProgress</URI>
+      <Nil N="IconUri" />
+      <Obj N="Tags" RefId="3">
+        <TN RefId="2">
+          <T>System.Object[]</T>
+          <T>System.Array</T>
+          <T>System.Object</T>
+        </TN>
+        <LST>
+          <S>PSModule</S>
+        </LST>
+      </Obj>
+      <Obj N="Includes" RefId="4">
+        <TN RefId="3">
+          <T>System.Collections.Hashtable</T>
+          <T>System.Object</T>
+        </TN>
+        <DCT>
+          <En>
+            <S N="Key">Function</S>
+            <Obj N="Value" RefId="5">
+              <TNRef RefId="2" />
+              <LST />
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Workflow</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+          <En>
+            <S N="Key">Command</S>
+            <Obj N="Value" RefId="6">
+              <TNRef RefId="2" />
+              <LST>
+                <S>Write-PipelineProgress</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">DscResource</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+          <En>
+            <S N="Key">Cmdlet</S>
+            <Obj N="Value" RefId="7">
+              <TNRef RefId="2" />
+              <LST>
+                <S>Write-PipelineProgress</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">RoleCapability</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+        </DCT>
+      </Obj>
+      <Nil N="PowerShellGetFormatVersion" />
+      <S N="ReleaseNotes">Fixed an issue where progress for the first item does not display when collecting items before processing.</S>
+      <Obj N="Dependencies" RefId="8">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <S N="RepositorySourceLocation">https://www.powershellgallery.com/api/v2</S>
+      <S N="Repository">PSGallery</S>
+      <S N="PackageManagementProvider">NuGet</S>
+      <Obj N="AdditionalMetadata" RefId="9">
+        <TN RefId="4">
+          <T>System.Management.Automation.PSCustomObject</T>
+          <T>System.Object</T>
+        </TN>
+        <MS>
+          <S N="copyright">(c) Daniel Potter. All rights reserved.</S>
+          <S N="description">This module provides a cmdlet that simplifies the process of creating and managing progress bars in your PowerShell scripts.</S>
+          <S N="requireLicenseAcceptance">False</S>
+          <S N="releaseNotes">Fixed an issue where progress for the first item does not display when collecting items before processing.</S>
+          <S N="isLatestVersion">True</S>
+          <S N="isAbsoluteLatestVersion">True</S>
+          <S N="versionDownloadCount">2</S>
+          <S N="downloadCount">23</S>
+          <S N="packageSize">31192</S>
+          <S N="published">08/12/2024 01.54.39 +07:00</S>
+          <S N="created">08/12/2024 01.54.39 +07:00</S>
+          <S N="lastUpdated">08/12/2024 02.40.00 +07:00</S>
+          <S N="tags">PSModule PSCmdlet_Write-PipelineProgress PSCommand_Write-PipelineProgress PSIncludes_Cmdlet</S>
+          <S N="developmentDependency">False</S>
+          <S N="updated">2024-12-08T02:40:00Z</S>
+          <S N="NormalizedVersion">1.1.0</S>
+          <S N="Authors">Daniel Potter</S>
+          <S N="IsPrerelease">false</S>
+          <S N="ItemType">Module</S>
+          <S N="FileList">PSProgress.nuspec|PSProgress.deps.json|PSProgress.dll|PSProgress.dll-Help.xml|PSProgress.pdb|PSProgress.psd1|PSProgress.xml</S>
+          <S N="GUID">a5a5d84b-eafb-4751-b007-f724801aadac</S>
+          <S N="PowerShellVersion">7.4</S>
+          <S N="CompanyName">Alidantech</S>
+        </MS>
+      </Obj>
+      <S N="InstalledLocation">C:\Users\fafag\OneDrive\Documents\PowerShell\Modules\PSProgress\1.1</S>
+    </MS>
+  </Obj>
+</Objs>

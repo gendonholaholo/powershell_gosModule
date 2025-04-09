@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <!-- Cmdlet: Write-PipelineProgress -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Write-PipelineProgress</command:name>
+      <command:verb>Write</command:verb>
+      <command:noun>PipelineProgress</command:noun>
+      <maml:description>
+        <maml:para>Displays a progress bar that updates as the items in the pipeline are processed.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Write-PipelineProgress cmdlet displays a progress bar that depicts the status of processing a pipeline of objects.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <!-- Parameter set: __AllParameterSets -->
+      <command:syntaxItem>
+        <maml:name>Write-PipelineProgress</maml:name>
+        <!-- Parameter: Activity -->
+        <command:parameter required="true" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Activity</maml:name>
+          <command:parameterValue required="true">string</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: CurrentOperation -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>CurrentOperation</maml:name>
+          <command:parameterValue required="true">ScriptBlock</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Management.Automation.ScriptBlock</maml:name>
+            <maml:uri />
+          </dev:type>
+        </command:parameter>
+        <!-- Parameter: DisplayThreshold -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DisplayThreshold</maml:name>
+          <command:parameterValue required="true">TimeSpan</command:parameterValue>
+          <dev:type>
+            <maml:name>System.TimeSpan</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>00:00:01</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: ExpectedCount -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExpectedCount</maml:name>
+          <command:parameterValue required="true">int</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: Id -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Id</maml:name>
+          <command:parameterValue required="true">int</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: InputObject -->
+        <command:parameter required="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+          <maml:name>InputObject</maml:name>
+          <command:parameterValue required="true">object[]</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Object[]</maml:name>
+            <maml:uri />
+          </dev:type>
+        </command:parameter>
+        <!-- Parameter: MinimumTimeLeftToDisplay -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>MinimumTimeLeftToDisplay</maml:name>
+          <command:parameterValue required="true">TimeSpan</command:parameterValue>
+          <dev:type>
+            <maml:name>System.TimeSpan</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>00:00:02</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: ParentId -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ParentId</maml:name>
+          <command:parameterValue required="true">int</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: RefreshInterval -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>RefreshInterval</maml:name>
+          <command:parameterValue required="true">TimeSpan</command:parameterValue>
+          <dev:type>
+            <maml:name>System.TimeSpan</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>00:00:00.5000000</dev:defaultValue>
+        </command:parameter>
+        <!-- Parameter: Status -->
+        <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Status</maml:name>
+          <command:parameterValue required="true">ScriptBlock</command:parameterValue>
+          <dev:type>
+            <maml:name>System.Management.Automation.ScriptBlock</maml:name>
+            <maml:uri />
+          </dev:type>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <!-- Parameter: InputObject -->
+      <command:parameter required="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+        <maml:name>InputObject</maml:name>
+        <maml:description>
+          <maml:para>Specifies the input objects. Progress will be written for each of these objects.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">object[]</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Object[]</maml:name>
+          <maml:uri />
+        </dev:type>
+      </command:parameter>
+      <!-- Parameter: Activity -->
+      <command:parameter required="true" globbing="false" pipelineInput="false" position="0">
+        <maml:name>Activity</maml:name>
+        <maml:description>
+          <maml:para>Specifies the first line of text in the heading above the status bar. This text describes the activity whose progress is being reported.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">string</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: ExpectedCount -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ExpectedCount</maml:name>
+        <maml:description>
+          <maml:para>Specifies the number of items that are expected to be processed. Using this parameter will improve the speed and reduce the overhead of this command.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">int</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: Id -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Id</maml:name>
+        <maml:description>
+          <maml:para>Specifies an ID that distinguishes each progress bar from the others. Use this parameter when you are creating more than one progress bar in a single command. If the progress bars don't have different IDs, they're superimposed instead of being displayed in a series. Negative values aren't allowed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">int</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: ParentId -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ParentId</maml:name>
+        <maml:description>
+          <maml:para>Specifies the parent activity of the current activity. Use the value -1 if the current activity has no parent activity.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">int</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: Status -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Status</maml:name>
+        <maml:description>
+          <maml:para>Specifies a script block expression that gets text that describes the current state of the activity, given the object being processed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">ScriptBlock</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Management.Automation.ScriptBlock</maml:name>
+          <maml:uri />
+        </dev:type>
+      </command:parameter>
+      <!-- Parameter: CurrentOperation -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>CurrentOperation</maml:name>
+        <maml:description>
+          <maml:para>Specifies a script block expression that gets text that describes the operation that's currently taking place. This parameter has no effect when the progress view is set to Minimal.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">ScriptBlock</command:parameterValue>
+        <dev:type>
+          <maml:name>System.Management.Automation.ScriptBlock</maml:name>
+          <maml:uri />
+        </dev:type>
+      </command:parameter>
+      <!-- Parameter: RefreshInterval -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>RefreshInterval</maml:name>
+        <maml:description>
+          <maml:para>Specifies the interval at which progress should be returned.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">TimeSpan</command:parameterValue>
+        <dev:type>
+          <maml:name>System.TimeSpan</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>00:00:00.5000000</dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: DisplayThreshold -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>DisplayThreshold</maml:name>
+        <maml:description>
+          <maml:para>Specifies the length of time from the first sample that progress should be returned.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">TimeSpan</command:parameterValue>
+        <dev:type>
+          <maml:name>System.TimeSpan</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>00:00:01</dev:defaultValue>
+      </command:parameter>
+      <!-- Parameter: MinimumTimeLeftToDisplay -->
+      <command:parameter required="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>MinimumTimeLeftToDisplay</maml:name>
+        <maml:description>
+          <maml:para>Specifies the shortest length of time over which progress should be returned. Set this to a longer time to avoid displaying progress moments from completion.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true">TimeSpan</command:parameterValue>
+        <dev:type>
+          <maml:name>System.TimeSpan</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>00:00:02</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Object[]</maml:name>
+          <maml:uri />
+        </dev:type>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <!-- OutputType: Object -->
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+          <maml:uri />
+        </dev:type>
+      </command:returnValue>
+    </command:returnValues>
+    <command:examples>
+      <command:example>
+        <maml:title>----------  Example 1: Simple Progress Bar  ----------</maml:title>
+        <dev:code>1..10 | Write-PipelineProgress -Activity "Activity" | ForEach-Object {
+    # Simulate a task.
+    Start-Sleep -Seconds 1
+}</dev:code>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 2: Progress Bar with Custom Status  ----------</maml:title>
+        <dev:code>Get-ChildItem *.json -Recurse | Write-PipelineProgress -Activity "Read JSON Files" -Status { $_.Name } | ForEach-Object {
+    # Simulate parsing the file.
+    Start-Sleep -Seconds 1
+}</dev:code>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 3: Progress Bar with Expected Number of Items  ----------</maml:title>
+        <dev:code>$taskList = 1..1000000
+$taskList | Write-PipelineProgress -Activity "Process Many Items" -ExpectedCount $taskList.Count | ForEach-Object {
+    # Simulate a task.
+    Start-Sleep -Milliseconds 10
+}</dev:code>
+      </command:example>
+    </command:examples>
+  </command:command>
+</helpItems>

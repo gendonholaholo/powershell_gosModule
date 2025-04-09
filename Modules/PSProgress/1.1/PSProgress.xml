@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PSProgress</name>
+    </assembly>
+    <members>
+        <member name="T:PSProgress.Commands.WritePipelineProgressCmdletCommand">
+            <summary>
+            Displays a progress bar that updates as the items in the pipeline are processed.
+            </summary>
+            <para>
+            The <c>Write-PipelineProgress</c> cmdlet displays a progress bar that depicts the status of processing a pipeline of objects.
+            </para>
+            <example>
+              <summary>Simple Progress Bar</summary>
+              <code>
+              1..10 | Write-PipelineProgress -Activity "Activity" | ForEach-Object {
+                  # Simulate a task.
+                  Start-Sleep -Seconds 1
+              }
+              </code>
+            </example>
+            <example>
+              <summary>Progress Bar with Custom Status</summary>
+              <code>
+              Get-ChildItem *.json -Recurse | Write-PipelineProgress -Activity "Read JSON Files" -Status { $_.Name } | ForEach-Object {
+                  # Simulate parsing the file.
+                  Start-Sleep -Seconds 1
+              }
+              </code>
+            </example>
+            <example>
+              <summary>Progress Bar with Expected Number of Items</summary>
+              <code>
+              $taskList = 1..1000000
+              $taskList | Write-PipelineProgress -Activity "Process Many Items" -ExpectedCount $taskList.Count | ForEach-Object {
+                  # Simulate a task.
+                  Start-Sleep -Milliseconds 10
+              }
+              </code>
+            </example>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.InputObject">
+            <summary>
+            Specifies the input objects. Progress will be written for each of these objects.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.Activity">
+            <summary>
+            Specifies the first line of text in the heading above the status bar. This text describes the activity whose progress is being reported.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.ExpectedCount">
+            <summary>
+            Specifies the number of items that are expected to be processed. Using this parameter will improve the speed and reduce the overhead of this command.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.Id">
+            <summary>
+            Specifies an ID that distinguishes each progress bar from the others. Use this parameter when you are creating more than one progress bar in a single command. If the progress bars don't have different IDs, they're superimposed instead of being displayed in a series. Negative values aren't allowed.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.ParentId">
+            <summary>
+            Specifies the parent activity of the current activity. Use the value <c>-1</c> if the current activity has no parent activity.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.Status">
+            <summary>
+            Specifies a script block expression that gets text that describes the current state of the activity, given the object being processed.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.CurrentOperation">
+            <summary>
+            Specifies a script block expression that gets text that describes the operation that's currently taking place. This parameter has no effect when the progress view is set to <c>Minimal</c>.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.RefreshInterval">
+            <summary>
+            Specifies the interval at which progress should be returned.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.DisplayThreshold">
+            <summary>
+            Specifies the length of time from the first sample that progress should be returned.
+            </summary>
+        </member>
+        <member name="P:PSProgress.Commands.WritePipelineProgressCmdletCommand.MinimumTimeLeftToDisplay">
+            <summary>
+            Specifies the shortest length of time over which progress should be returned. Set this to a longer time to avoid displaying progress moments from completion.
+            </summary>
+        </member>
+        <member name="M:PSProgress.Commands.WritePipelineProgressCmdletCommand.BeginProcessing">
+            <inheritdoc/>
+        </member>
+        <member name="M:PSProgress.Commands.WritePipelineProgressCmdletCommand.ProcessRecord">
+            <inheritdoc/>
+        </member>
+        <member name="M:PSProgress.Commands.WritePipelineProgressCmdletCommand.EndProcessing">
+            <inheritdoc/>
+        </member>
+        <member name="T:PSProgress.DateTimeProvider">
+            <summary>
+            A class that provides a method for getting the current time.
+            </summary>
+        </member>
+        <member name="P:PSProgress.DateTimeProvider.Default">
+            <summary>
+            Gets or sets the default date time provider.
+            </summary>
+            <remarks>
+            This property is writable to allow for testing progress commands from PowerShell. It is not recommended to modify this property outside of testing.
+            </remarks>
+        </member>
+        <member name="M:PSProgress.DateTimeProvider.GetCurrentTime">
+            <inheritdoc/>
+        </member>
+        <member name="T:PSProgress.IDateTimeProvider">
+            <summary>
+            An interface that defines an object that can get the current time.
+            </summary>
+        </member>
+        <member name="M:PSProgress.IDateTimeProvider.GetCurrentTime">
+            <summary>
+            Gets the current time.
+            </summary>
+            <returns>The current time.</returns>
+        </member>
+        <member name="T:PSProgress.ProgressContext">
+            <summary>
+            A class that tracks uniform progress.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.DefaultRefreshInterval">
+            <summary>
+            The default interval at which progress should be returned. The value is 0.5 seconds.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.MinimumRefreshInterval">
+            <summary>
+            The minimum time interval between which PowerShell will refresh the progress bar.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.DefaultDisplayThreshold">
+            <summary>
+            The default length of time from the first sample that progress should be returned. The value is 1 second.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.DefaultMinimumTimeLeftToDisplay">
+            <summary>
+            The default shortest length of time over which progress should be returned.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.ProcessedItemCount">
+            <summary>
+            Gets the total number of samples that have been added.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.ExpectedItemCount">
+            <summary>
+            Gets or sets the expected number of samples that will be added.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.RefreshInterval">
+            <summary>
+            Gets or sets the interval at which progress should be returned.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.DisplayThreshold">
+            <summary>
+            Gets or sets the length of time from the first sample that progress should be returned.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.MinimumTimeLeftToDisplay">
+            <summary>
+            Gets or sets the shortest length of time over which progress should be returned. Set this to a longer time to avoid displaying progress moments from completion.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.LastProgressDisplayTime">
+            <summary>
+            Gets the last time at which progress was displayed.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressContext.TimeProvider">
+            <summary>
+            Gets or sets the date time provider to use. Set this property to allow for testing this class.
+            </summary>
+        </member>
+        <member name="M:PSProgress.ProgressContext.AddSample">
+            <summary>
+            Samples the current time to determine whether progress should be displayed and adds to the processed item count.
+            </summary>
+            <returns>An object containing progress information if progress should be displayed; otherwise, <see langword="null"/>.</returns>
+        </member>
+        <member name="M:PSProgress.ProgressContext.CheckTime">
+            <summary>
+            Checks the current time to determine whether progress should be displayed.
+            </summary>
+            <returns>An object containing progress information if progress should be displayed; otherwise, <see langword="null"/>.</returns>
+        </member>
+        <member name="T:PSProgress.ProgressSession">
+            <summary>
+            A session for tracking progress.
+            </summary>
+            <param name="activity">The text that describes the activity whose progress is being reported.</param>
+            <param name="activityId">The ID that distinguishes each progress bar from the others.</param>
+        </member>
+        <member name="M:PSProgress.ProgressSession.#ctor(System.String,System.Nullable{System.Int32})">
+            <summary>
+            A session for tracking progress.
+            </summary>
+            <param name="activity">The text that describes the activity whose progress is being reported.</param>
+            <param name="activityId">The ID that distinguishes each progress bar from the others.</param>
+        </member>
+        <member name="P:PSProgress.ProgressSession.Activity">
+            <summary>
+            Gets the text that describes the activity whose progress is being reported.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.ActivityId">
+            <summary>
+            Gets the ID that distinguishes each progress bar from the others.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.ParentId">
+            <summary>
+            Gets or sets the parent activity of the current activity.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.ExpectedItemCount">
+            <summary>
+            Gets the number of items that are expected to be processed.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.Status">
+            <summary>
+            Gets or sets the script that creates the text that describes current state of the activity.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.CurrentOperation">
+            <summary>
+            Gets or sets the script block that creates the text that describes the operation that's currently taking place.
+            </summary>
+        </member>
+        <member name="P:PSProgress.ProgressSession.Context">
+            <summary>
+            Gets or sets the object that tracks the progress for the session.
+            </summary>
+        </member>
+        <member name="M:PSProgress.ProgressSession.CreateProgressRecord(PSProgress.SampledProgressInfo,System.Object)">
+            <summary>
+            Create a progress record for an item that will be processed.
+            </summary>
+            <param name="progressInfo">The progress information.</param>
+            <param name="item">The item to be processed.</param>
+            <returns>A new <see cref="T:System.Management.Automation.ProgressRecord"/> instance that represents the <paramref name="progressInfo"/>.</returns>
+        </member>
+        <member name="M:PSProgress.ProgressSession.GetDebugMessage(System.Management.Automation.ProgressRecord)">
+            <summary>
+            Gets a debug message to display for a progress record.
+            </summary>
+            <param name="progressRecord">The progress record.</param>
+            <returns>A string representation of the progress record.</returns>
+        </member>
+        <member name="T:PSProgress.SampledProgressInfo">
+            <summary>
+            Contains progress information and indicates that progress should be displayed.
+            </summary>
+            <param name="ItemIndex"> Gets the index of the item that was sampled. </param>
+            <param name="RemainingItemCount"> Gets the expected number of items that have yet to be processed. </param>
+            <param name="PercentComplete"> Gets a value between 0 and 1 that represents the completion progress. </param>
+            <param name="EstimatedTimeRemaining"> Gets a time span that represents the estimated time remaining until all items have been processed, if available. </param>
+        </member>
+        <member name="M:PSProgress.SampledProgressInfo.#ctor(System.UInt32,System.UInt32,System.Double,System.Nullable{System.TimeSpan})">
+            <summary>
+            Contains progress information and indicates that progress should be displayed.
+            </summary>
+            <param name="ItemIndex"> Gets the index of the item that was sampled. </param>
+            <param name="RemainingItemCount"> Gets the expected number of items that have yet to be processed. </param>
+            <param name="PercentComplete"> Gets a value between 0 and 1 that represents the completion progress. </param>
+            <param name="EstimatedTimeRemaining"> Gets a time span that represents the estimated time remaining until all items have been processed, if available. </param>
+        </member>
+        <member name="P:PSProgress.SampledProgressInfo.ItemIndex">
+            <summary> Gets the index of the item that was sampled. </summary>
+        </member>
+        <member name="P:PSProgress.SampledProgressInfo.RemainingItemCount">
+            <summary> Gets the expected number of items that have yet to be processed. </summary>
+        </member>
+        <member name="P:PSProgress.SampledProgressInfo.PercentComplete">
+            <summary> Gets a value between 0 and 1 that represents the completion progress. </summary>
+        </member>
+        <member name="P:PSProgress.SampledProgressInfo.EstimatedTimeRemaining">
+            <summary> Gets a time span that represents the estimated time remaining until all items have been processed, if available. </summary>
+        </member>
+        <member name="T:PSProgress.ScriptBlockExtensions">
+            <summary>
+            Defines helper methods for script blocks.
+            </summary>
+        </member>
+        <member name="M:PSProgress.ScriptBlockExtensions.InvokeInline(System.Management.Automation.ScriptBlock,System.Object[])">
+            <summary>
+            Invokes a script block with the <c>$_</c> automatic variable set to the first argument.
+            </summary>
+            <param name="scriptBlock">The script block to invoke.</param>
+            <param name="args">The arguments to pass to the script block.</param>
+            <returns>The result of the script block.</returns>
+        </member>
+    </members>
+</doc>
