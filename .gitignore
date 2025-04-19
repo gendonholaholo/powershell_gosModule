@@ -1,0 +1,29 @@
+# API Keys and sensitive data
+*.env
+*.key
+*.secret
+config.json
+api_key.txt
+Modules/GosModule/Config/config.ps1
+
+# PowerShell specific
+$HOME/
+$PROFILE
+Microsoft.PowerShell_profile.ps1
+profile.ps1
+powershell.config.json
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db 

@@ -20,75 +20,36 @@ function Format-Response {
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
-        [string]$Text,
-
-        [Parameter(Position = 1)]
+        [Parameter(ValueFromPipeline = $true)]
+        [string]$Text = "Pesan Anda",
+        
         [string]$Title = "",
-
-        [Parameter(Position = 2)]
+        
         [ValidateSet('default', 'info', 'warning', 'error', 'success')]
         [string]$Style = 'default'
     )
-
-    begin {
-        # Define style configurations
-        $styles = @{
-            default = @{ Color = 'Cyan'; Icon = '>' }
-            info = @{ Color = 'Blue'; Icon = 'i' }
-            warning = @{ Color = 'Yellow'; Icon = '!' }
-            error = @{ Color = 'Red'; Icon = 'x' }
-            success = @{ Color = 'Green'; Icon = '√' }
-        }
+    
+    # Define style configurations
+    $styles = @{
+        default = @{ Color = [System.ConsoleColor]::Cyan }
+        info = @{ Color = [System.ConsoleColor]::Blue }
+        warning = @{ Color = [System.ConsoleColor]::Yellow }
+        error = @{ Color = [System.ConsoleColor]::Red }
+        success = @{ Color = [System.ConsoleColor]::Green }
     }
-
-    process {
-        # Get style configuration
-        $styleConfig = $styles[$Style]
-        
-        # Calculate width
-        $width = 60
-        $border = "─" * ($width - 2)
-        
-        # Build output
-        $output = "`n"
-        
-        # Add title if provided
-        if ($Title) {
-            $titleLine = " $($styleConfig.Icon) $Title"
-            $output += "╭$($border)╮`n"
-            $output += "│$($titleLine.PadRight($width - 2))│`n"
-            $output += "├$($border)┤`n"
-        } else {
-            $output += "╭$($border)╮`n"
-        }
-        
-        # Add content with word wrap
-        $words = $Text -split '\s+'
-        $currentLine = ""
-        
-        foreach ($word in $words) {
-            if ($currentLine.Length -eq 0) {
-                $currentLine = $word
-            }
-            elseif (($currentLine.Length + 1 + $word.Length) -le ($width - 4)) {
-                $currentLine += " $word"
-            }
-            else {
-                $output += "│ $($currentLine.PadRight($width - 4)) │`n"
-                $currentLine = $word
-            }
-        }
-        
-        if ($currentLine) {
-            $output += "│ $($currentLine.PadRight($width - 4)) │`n"
-        }
-        
-        $output += "╰$($border)╯`n"
-        
-        # Output with color
-        Write-Host $output -ForegroundColor $styleConfig.Color
+    
+    # Apply style
+    $Color = $styles[$Style].Color
+    
+    # Format output
+    $output = "`n"
+    if ($Title) {
+        $output += "[$Title]`n"
     }
+    $output += "$Text`n`n"
+    
+    # Write output with color
+    Write-Host $output -ForegroundColor $Color
 }
 
 # Output linter function
@@ -142,14 +103,4 @@ function Test-OutputFormat {
     }
 }
 
-# Penggunaan dasar
-Format-Response "Pesan Anda"
-
-# Dengan judul
-Format-Response "Pesan Anda" -Title "Judul"
-
-# Dengan gaya berbeda
-Format-Response "Pesan Anda" -Style warning
-
-# Menggunakan pipeline
-"Pesan Anda" | Format-Response -Title "Dari Pipeline" 
+Export-ModuleMember -Function Format-Response 

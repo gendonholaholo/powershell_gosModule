@@ -1,5 +1,5 @@
 # CoordinatorAgent.ps1
-# Agent for coordinating and managing other agents
+# Agen untuk mengkoordinasikan dan mengelola agen lainnya
 
 using module ..\GosModule.psm1
 
@@ -29,11 +29,11 @@ class CoordinatorAgent {
     
     [string]HandleQuestion([hashtable]$input) {
         $prompt = @"
-Please answer the following question in Indonesian:
+Mohon jawab pertanyaan berikut dalam Bahasa Indonesia:
 
 $($input.Content)
 
-Provide a clear and direct answer, focusing on accuracy and helpfulness.
+Berikan jawaban yang jelas dan langsung, fokus pada keakuratan dan bermanfaat.
 "@
         
         return $this.Agents["summary"].CallAPI($prompt)

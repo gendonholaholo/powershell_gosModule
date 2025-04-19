@@ -1,10 +1,10 @@
 # SecurityAnalysisAgent.ps1
-# Agent for analyzing security concerns and vulnerabilities
+# Agen untuk menganalisis masalah keamanan dan kerentanan
 
 using module ..\GosModule.psm1
 
 class SecurityAnalysisAgent : BaseAgent {
-    SecurityAnalysisAgent() : base("SecurityAnalysis", "security concerns, vulnerabilities, and best practices", "security") { }
+    SecurityAnalysisAgent() : base("AnalisisKeamanan", "masalah keamanan, kerentanan, dan praktik terbaik", "security") { }
     
     [string]Process([hashtable]$input) {
         $content = if ($input.ContainsKey("Path")) {
@@ -19,18 +19,18 @@ class SecurityAnalysisAgent : BaseAgent {
     
     [string]FormatPrompt([string]$content) {
         return @"
-As a security analysis expert, please analyze the following code for security concerns:
+Sebagai pakar analisis keamanan, mohon analisis kode berikut untuk masalah keamanan:
 
 $content
 
-Please provide a detailed security analysis covering:
-1. Potential security vulnerabilities
-2. Authentication and authorization concerns
-3. Data handling and privacy issues
-4. Input validation and sanitization
-5. Security best practices recommendations
+Mohon berikan analisis detail yang mencakup:
+1. Kerentanan keamanan potensial
+2. Masalah autentikasi dan otorisasi
+3. Masalah penanganan data dan privasi
+4. Validasi dan sanitasi input
+5. Rekomendasi praktik keamanan terbaik
 
-Focus on identifying and mitigating security risks.
+Fokus pada identifikasi dan mitigasi risiko keamanan.
 "@
     }
 

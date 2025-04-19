@@ -1,8 +1,8 @@
 # CodeAnalysisAgent.ps1
-# Agent for analyzing code structure and patterns
+# Agen untuk menganalisis struktur kode dan pola
 
 class CodeAnalysisAgent : BaseAgent {
-    CodeAnalysisAgent() : base("CodeAnalysis", "code structure, patterns, and best practices", "code") { }
+    CodeAnalysisAgent() : base("AnalisisKode", "struktur kode, pola, dan praktik terbaik", "code") { }
     
     [string]Process([hashtable]$input) {
         $content = if ($input.ContainsKey("Path")) {
@@ -17,18 +17,18 @@ class CodeAnalysisAgent : BaseAgent {
     
     [string]FormatPrompt([string]$content) {
         return @"
-As a code analysis expert, please analyze the following code:
+Sebagai pakar analisis kode, mohon analisis kode berikut:
 
 $content
 
-Please provide a detailed analysis covering:
-1. Code structure and organization
-2. Patterns and practices used
-3. Potential issues or concerns
-4. Suggestions for improvement
-5. Best practices recommendations
+Mohon berikan analisis detail yang mencakup:
+1. Struktur dan organisasi kode
+2. Pola dan praktik yang digunakan
+3. Masalah atau kekhawatiran potensial
+4. Saran untuk perbaikan
+5. Rekomendasi praktik terbaik
 
-Focus on maintainability, readability, and code quality.
+Fokus pada kemudahan pemeliharaan, keterbacaan, dan kualitas kode.
 "@
     }
 

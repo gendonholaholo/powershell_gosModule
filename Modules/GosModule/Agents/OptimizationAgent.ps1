@@ -1,10 +1,10 @@
 # OptimizationAgent.ps1
-# Agent for analyzing performance and optimization opportunities
+# Agen untuk menganalisis performa dan peluang optimasi
 
 using module ..\GosModule.psm1
 
 class OptimizationAgent : BaseAgent {
-    OptimizationAgent() : base("OptimizationAnalysis", "performance optimization and efficiency improvements", "optimization") { }
+    OptimizationAgent() : base("AnalisisOptimasi", "optimasi performa dan peningkatan efisiensi", "optimization") { }
     
     [string]Process([hashtable]$input) {
         $content = if ($input.ContainsKey("Path")) {
@@ -19,18 +19,18 @@ class OptimizationAgent : BaseAgent {
     
     [string]FormatPrompt([string]$content) {
         return @"
-As a performance optimization expert, please analyze the following code:
+Sebagai pakar optimasi performa, mohon analisis kode berikut:
 
 $content
 
-Please provide a detailed optimization analysis covering:
-1. Potential performance optimizations
-2. Inefficient resource usage
-3. Suggestions for improving efficiency
-4. Best practices for optimization
-5. Specific recommendations for improvements
+Mohon berikan analisis detail yang mencakup:
+1. Potensi optimasi performa
+2. Penggunaan sumber daya yang tidak efisien
+3. Saran untuk meningkatkan efisiensi
+4. Praktik terbaik untuk optimasi
+5. Rekomendasi spesifik untuk perbaikan
 
-Focus on enhancing performance and resource utilization.
+Fokus pada peningkatan performa dan pemanfaatan sumber daya.
 "@
     }
 

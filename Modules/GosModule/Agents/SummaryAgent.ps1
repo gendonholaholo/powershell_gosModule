@@ -1,10 +1,10 @@
 # SummaryAgent.ps1
-# Agent for providing concise summaries and explanations
+# Agen untuk memberikan ringkasan dan penjelasan singkat
 
 using module ..\GosModule.psm1
 
 class SummaryAgent : BaseAgent {
-    SummaryAgent() : base("SummaryAnalysis", "providing concise summaries and clear explanations", "summary") { }
+    SummaryAgent() : base("AnalisisRingkasan", "memberikan ringkasan singkat dan penjelasan yang jelas", "summary") { }
     
     [string]Process([hashtable]$input) {
         $content = if ($input.ContainsKey("Path")) {
@@ -19,18 +19,18 @@ class SummaryAgent : BaseAgent {
     
     [string]FormatPrompt([string]$content) {
         return @"
-As a technical documentation expert, please provide a summary of the following:
+Sebagai pakar dokumentasi teknis, mohon berikan ringkasan dari konten berikut:
 
 $content
 
-Please provide a clear and concise summary covering:
-1. Main purpose and functionality
-2. Key components and features
-3. Important dependencies or requirements
-4. Notable design patterns or approaches
-5. Key takeaways for users or developers
+Mohon berikan ringkasan yang jelas dan singkat yang mencakup:
+1. Tujuan utama dan fungsionalitas
+2. Komponen dan fitur utama
+3. Dependensi atau persyaratan penting
+4. Pola desain atau pendekatan yang digunakan
+5. Poin penting untuk pengguna atau pengembang
 
-Focus on clarity and comprehensiveness while maintaining brevity.
+Fokus pada kejelasan dan kelengkapan sambil tetap ringkas.
 "@
     }
 

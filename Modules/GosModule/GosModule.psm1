@@ -383,8 +383,8 @@ function prompt {
         $batteryStatus = "[$($battery.Percentage)%]"
     }
     
-    # Format the prompt with conda status
-    $prompt = "`n╭─[Gos@$env:COMPUTERNAME]─[$currentDir] $condaStatus $batteryStatus─[ $currentTime]`n╰─ "
+    # Format the prompt without boxes
+    $prompt = "`nGos@$env:COMPUTERNAME [$currentDir] $condaStatus $batteryStatus [ $currentTime]`n> "
     
     return $prompt
 }
@@ -660,47 +660,125 @@ Export-ModuleMember -Function @(
 
 # Define gosTanya function
 function gosTanya {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Interactive")] # Make Interactive the default if no parameters are explicitly bound
     param(
-        [Parameter(Mandatory=$true, Position=0, ParameterSetName="Question")]
+        [Parameter(Position=0, ParameterSetName="Question")]
         [string]$Question,
         
-        [Parameter(Mandatory=$true, ParameterSetName="Read")]
+        [Parameter(ParameterSetName="Read")]
         [string]$Read,
         
-        [Parameter(Mandatory=$false, ParameterSetName="Read")]
+        [Parameter(ParameterSetName="Read")]
         [ValidateSet("code", "security", "optimization", "summary")]
         [string]$Agent,
 
-        [Parameter(Mandatory=$false)]
+        [Parameter(ParameterSetName="Read")] # Apply Style to Read mode
+        [Parameter(ParameterSetName="Question")] # Apply Style to Question mode
+        # Style parameter doesn't make as much sense for interactive mode, but keep it for consistency
+        [Parameter(ParameterSetName="Interactive")] 
         [ValidateSet('default', 'info', 'warning', 'error', 'success')]
         [string]$Style = 'default'
     )
     
-    try {
-        Show-LoadingIndicator
-        
-        if ($PSCmdlet.ParameterSetName -eq "Read") {
-            if (-not (Test-Path $Read)) {
-                Write-Error "File not found: $Read"
-                return
+    # Check if running interactively (default parameter set is active)
+    if ($PSCmdlet.ParameterSetName -eq "Interactive") {
+        # --- Interactive Thread Mode ---
+        Write-Host "Entering interactive mode. Type 'exit' or 'quit' to end." -ForegroundColor Green
+
+        # Configuration checks are typically done when the module loads or globally,
+        # so we might not need to repeat them here unless necessary.
+        # Write-Host "Current Primary Model: $($Global:GosAPIModel)"
+        # Write-Host "Current Fallback Model: $($Global:GroqAPIModel)"
+
+        while ($true) {
+            try {
+                # Use Write-Host for the prompt in interactive mode for clarity
+                Write-Host ">> " -NoNewline
+                $userInput = Read-Host 
+
+                if ($null -eq $userInput) { # Handle Ctrl+C during Read-Host
+                    Write-Host "`nExiting interactive mode." -ForegroundColor Yellow
+                    break
+                }
+
+                $userInputClean = $userInput.Trim()
+
+                if ($userInputClean -in @('exit', 'quit')) {
+                    Write-Host "Exiting interactive mode." -ForegroundColor Yellow
+                    break
+                }
+
+                if (-not $userInputClean) {
+                    continue # Ignore empty input
+                }
+
+                # Inform user about the primary model being attempted
+                Write-Host "Attempting primary model: $($Global:GosAPIModel)" -ForegroundColor DarkCyan
+
+                # Display thinking indicator before calling API
+                Show-LoadingIndicator # Use the module's loading indicator
+                # Call the module's Invoke-AIRequest for questions
+                $aiResponse = Invoke-AIRequest -Content $userInputClean -Type "question"
+                # Clear the loading indicator line
+                Write-Host "`r$((' ' * ($Host.UI.RawUI.WindowSize.Width - 1)))`r" -NoNewline 
+
+
+                # Display AI response using the module's formatter
+                Format-Response -Text $aiResponse -Style $Style # Use the style parameter if needed
+
+            }
+            catch [System.Management.Automation.PipelineStoppedException] {
+                 # Catch Ctrl+C specifically if it happens outside Read-Host
+                Write-Host "`nExiting interactive mode (Ctrl+C detected)." -ForegroundColor Yellow
+                break
+            }
+            catch {
+                Write-Error "An error occurred in interactive mode: $_"
+                # Continue the loop
+            }
+        }
+    }
+    else {
+        # --- One-Shot Mode (Existing Logic) ---
+        try {
+            # Inform user about the primary model being attempted
+            Write-Host "Attempting primary model: $($Global:GosAPIModel)" -ForegroundColor DarkCyan
+
+            Show-LoadingIndicator
+
+            $result = "" # Initialize result variable
+            if ($PSCmdlet.ParameterSetName -eq "Read") {
+                if (-not (Test-Path $Read)) {
+                    Write-Error "File not found: $Read"
+                    # Clear loading indicator on error before returning
+                    Write-Host "`r$((' ' * ($Host.UI.RawUI.WindowSize.Width - 1)))`r" -NoNewline
+                    return
+                }
+                
+                $content = Get-Content -Path $Read -Raw
+                if ($Agent) {
+                    $result = Invoke-AIRequest -Content $content -Type "file" -Agent $Agent
+                } else {
+                    # If no specific agent, use the comprehensive file analysis
+                    $result = Invoke-AIRequest -Content $content -Type "file" 
+                }
+            }
+            elseif ($PSCmdlet.ParameterSetName -eq "Question") { # ParameterSetName is "Question"
+                $result = Invoke-AIRequest -Content $Question -Type "question"
             }
             
-            $content = Get-Content -Path $Read -Raw
-            if ($Agent) {
-                $result = Invoke-AIRequest -Content $content -Type "file" -Agent $Agent
-            } else {
-                $result = Invoke-AIRequest -Content $content -Type "file"
-            }
+            # Clear the loading indicator line before showing response
+            Write-Host "`r$((' ' * ($Host.UI.RawUI.WindowSize.Width - 1)))`r" -NoNewline 
+            
+            # Format and display result with style
+            Format-Response -Text $result -Style $Style
         }
-        else {
-            $result = Invoke-AIRequest -Content $Question -Type "question"
+        catch {
+             # Clear the loading indicator line on error
+            Write-Host "`r$((' ' * ($Host.UI.RawUI.WindowSize.Width - 1)))`r" -NoNewline
+            Write-Error "Error processing request: $_"
         }
-        
-        # Format and display result with style
-        Format-Response -Text $result -Style $Style
-    }
-    catch {
-        Write-Error "Error processing request: $_"
     }
 } 
+# Ensure gosTanya is exported if not already covered by the wildcard export
+# Export-ModuleMember -Function 'gosTanya' # This might be redundant if already exported above 

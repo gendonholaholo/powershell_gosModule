@@ -40,11 +40,11 @@ class BaseAgent {
 
     [string]FormatPrompt([string]$content) {
         return @"
-As an AI assistant specializing in $($this.Type) analysis, please analyze the following content:
+Sebagai asisten AI yang berspesialisasi dalam analisis $($this.Type), mohon analisis konten berikut:
 
 $content
 
-Please provide a detailed analysis focusing on $($this.Description).
+Mohon berikan analisis detail yang berfokus pada $($this.Description) dalam Bahasa Indonesia.
 "@
     }
 
@@ -52,58 +52,58 @@ Please provide a detailed analysis focusing on $($this.Description).
         try {
             $headers = @{
                 "Content-Type" = "application/json"
-                "Authorization" = "Bearer $Global:GosAPIKey"
+                "Authorization" = "Bearer $($this.LLM.APIKey)"
             }
             
             $body = @{
-                model = $Global:GosAPIModel
+                model = $this.LLM.Model
                 messages = @(
                     @{
                         role = "system"
-                        content = "You are an AI assistant specializing in $($this.Type) analysis."
+                        content = "Anda adalah asisten AI yang berspesialisasi dalam analisis $($this.Type). Mohon berikan semua respons dalam Bahasa Indonesia."
                     },
                     @{
                         role = "user"
                         content = $prompt
                     }
                 )
-                max_tokens = $Global:GosAPIMaxTokens
-                temperature = $Global:GosAPITemperature
+                max_tokens = $this.LLM.MaxTokens
+                temperature = $this.LLM.Temperature
             } | ConvertTo-Json
             
-            $response = Invoke-RestMethod -Uri $Global:GosAPIEndpoint -Method Post -Headers $headers -Body $body
+            $response = Invoke-RestMethod -Uri $this.LLM.APIEndpoint -Method Post -Headers $headers -Body $body
             return $response.choices[0].message.content
         }
         catch {
-            Write-Warning "Error calling OpenAI API. Falling back to Groq..."
+            Write-Warning "Error memanggil OpenAI API. Beralih ke Groq..."
             try {
                 $headers = @{
                     "Content-Type" = "application/json"
-                    "Authorization" = "Bearer $Global:GroqAPIKey"
+                    "Authorization" = "Bearer $($this.LLM.APIKey)"
                 }
                 
                 $body = @{
-                    model = $Global:GroqAPIModel
+                    model = $this.LLM.Model
                     messages = @(
                         @{
                             role = "system"
-                            content = "You are an AI assistant specializing in $($this.Type) analysis."
+                            content = "Anda adalah asisten AI yang berspesialisasi dalam analisis $($this.Type). Mohon berikan semua respons dalam Bahasa Indonesia."
                         },
                         @{
                             role = "user"
                             content = $prompt
                         }
                     )
-                    max_tokens = $Global:GroqAPIMaxTokens
-                    temperature = $Global:GroqAPITemperature
+                    max_tokens = $this.LLM.MaxTokens
+                    temperature = $this.LLM.Temperature
                 } | ConvertTo-Json
                 
-                $response = Invoke-RestMethod -Uri $Global:GroqAPIEndpoint -Method Post -Headers $headers -Body $body
+                $response = Invoke-RestMethod -Uri $this.LLM.APIEndpoint -Method Post -Headers $headers -Body $body
                 return $response.choices[0].message.content
             }
             catch {
-                Write-Error "Failed to call both OpenAI and Groq APIs: $_"
-                return "Error: Failed to get response from AI services."
+                Write-Error "Gagal memanggil API OpenAI dan Groq: $_"
+                return "Error: Gagal mendapatkan respons dari layanan AI."
             }
         }
     }
